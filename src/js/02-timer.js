@@ -1,6 +1,6 @@
 import flatpickr from 'flatpickr';
-
 import 'flatpickr/dist/flatpickr.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 //flatpicker object options
 
@@ -17,10 +17,11 @@ const options = {
 
   onClose(selectedDates) {
     if (selectedDates[0] < new Date()) {
-      alert('Please choose a date in the future');
+      Notify.failure('Please choose a date in the future');
       return;
     }
     startBtn.disabled = false;
+    clearInterval(intervalId);
   },
 };
 
@@ -33,6 +34,8 @@ let intervalId = null;
 // functions
 
 function startCountdown(e) {
+  startBtn.disabled = true;
+
   intervalId = setInterval(() => {
     const remainingTime = fp.selectedDates[0] - new Date();
     if (remainingTime <= 0) {
@@ -44,8 +47,9 @@ function startCountdown(e) {
     minutes.textContent = timeComponents.minutes;
     seconds.textContent = timeComponents.seconds;
   });
-  startBtn.removeEventListener('click', startCountdown);
 }
+
+// function onChangeDeadline() {
 
 function pad(value) {
   return String(value).padStart(2, '0');

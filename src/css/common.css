@@ -22,6 +22,6 @@ img {
   gap: 20px;
 }
 
-span {
+.timer > span {
   display: block;
 }
