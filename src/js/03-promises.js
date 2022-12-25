@@ -33,7 +33,7 @@ function onSubmit(e) {
   const step = Number(inputs[1].value);
   const amount = Number(inputs[2].value);
 
-  for (position = 1; position <= amount; position += 1) {
+  for (let position = 1; position <= amount; position += 1) {
     createPromise(position, delay).then(onSuccess).catch(onError);
     delay += step;
   }
