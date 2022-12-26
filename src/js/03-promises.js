@@ -3,12 +3,12 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 const form = document.querySelector('.form');
 form.addEventListener('submit', onSubmit);
 
-const inputs = [];
+const formInputs = [];
 [...form.children].forEach(child => {
   if (!child.firstElementChild) {
     return;
   }
-  inputs.push(child.firstElementChild);
+  formInputs.push(child.firstElementChild);
 });
 
 let intervalId = null;
@@ -29,13 +29,14 @@ function createPromise(position, delay) {
 function onSubmit(e) {
   e.preventDefault();
 
-  let delay = Number(inputs[0].value);
-  const step = Number(inputs[1].value);
-  const amount = Number(inputs[2].value);
+  let delay = Number(formInputs[0].value);
+  const step = Number(formInputs[1].value);
+  const amount = Number(formInputs[2].value);
 
   for (let position = 1; position <= amount; position += 1) {
-    createPromise(position, delay).then(onSuccess).catch(onError);
-    delay += step;
+    createPromise(position, (delay += step))
+      .then(onSuccess)
+      .catch(onError);
   }
 }
 
